@@ -109,3 +109,104 @@ for (let i = 0; i < 100; i++) {
   }
   numberContainer.appendChild(numberBlock);
 }
+
+// !! task - 3
+// Form Events, Input, Focus, Blur and Submit.
+
+// Використовуй шаблон форми з файлу html.
+
+// 1 - При події `input`, якщо користувач ввів в поле більше
+// 6 символів то додати клас `success`. Якщо ж символів менше аніж 6,
+// то клас `error`
+
+// 2 - При події `focus` зроби перевірку на пустоту поля інпута,
+// якщо ж поле пусте, то зроби `outline` => `'3px solid red'`,
+// якщо при фокусі поле непусте, то `outline` => `'3px solid green'`
+
+// 3 - При події `blur` зроби перевірку на пустоту поля інпута,
+// якщо ж поле пусте, то зроби `outline` => `'3px solid red'`,
+// якщо при фокусі поле непусте, то `outline` => `'3px solid lime'`
+
+// 4 - При події `submit`. Відміни поведінку браузера по змовчуванню.
+// Дістань данні з інпуту і чек боксу, зроби перевірку,
+// що інпут не порожній, також, що нажатий чек бокс у положення true,
+// якщо користувач все виконав вірно, збери данні (userName)
+// у обьект і виведи у консоль. У разі, якщо користувач не виконав
+// одну із умов, виведи повідомлення. Також при події інпут реалізуй додавання
+// ім`я користувача у span, замість слова "Anonymous".
+// Якщо користувач ввів ім`я, а потім видалив, зроби так,
+// щоб на місце повернулось дефолтне знаяення "Anonymous".
+// При відправці форми, очисти інпут, верни чек бокс у положення
+// false, верни дефолтне значення "Anonymous" у span.
+const refs = {
+  formElem: document.querySelector(`.js-contact-form`),
+  inputElem: document.querySelector(`input`),
+  spanElem: document.querySelector(`.js-username-output`),
+  checkElem: document.querySelector(`.js-policy-checkbox`),
+};
+const defaultName = "Anonymous";
+//!! Task 3-1 Input
+refs.inputElem.addEventListener(`input`, () => {
+  const value = refs.inputElem.value.trim();
+  refs.inputElem.classList.remove(`success`, `error`);
+  if (value.length > 6) {
+    refs.inputElem.classList.add(`success`);
+    // refs.inputElem.classList.remove(`error`);
+  } else {
+    refs.inputElem.classList.add(`error`);
+    // refs.inputElem.classList.remove(`success`);
+  }
+  refs.spanElem.textContent = value ? value : defaultName;
+});
+
+//!! Task 3-2 Focus
+refs.inputElem.addEventListener(`focus`, () => {
+  if (refs.inputElem.value.trim() === "" || refs.inputElem.value.length < 6) {
+    refs.inputElem.style.outline = "3px solid red";
+  } else {
+    refs.inputElem.style.outline = "3px solid green";
+  }
+});
+
+//!! Task 3-3 Blur
+
+refs.inputElem.addEventListener(`blur`, () => {
+  if (refs.inputElem.value.trim() === "" || refs.inputElem.value.length < 6) {
+    refs.inputElem.style.outline = "3px solid red";
+  } else {
+    refs.inputElem.style.outline = "3px solid lime";
+  }
+});
+
+// 4 - При події `submit`. Відміни поведінку браузера по змовчуванню.
+// Дістань данні з інпуту і чек боксу, зроби перевірку,
+// що інпут не порожній, також, що нажатий чек бокс у положення true,
+// якщо користувач все виконав вірно, збери данні (userName)
+// у обьект і виведи у консоль. У разі, якщо користувач не виконав
+// одну із умов, виведи повідомлення. Також при події інпут реалізуй додавання
+// ім`я користувача у span, замість слова "Anonymous".
+// Якщо користувач ввів ім`я, а потім видалив, зроби так,
+// щоб на місце повернулось дефолтне знаяення "Anonymous".
+// При відправці форми, очисти інпут, верни чек бокс у положення
+// false, верни дефолтне значення "Anonymous" у span.
+//!! Task 3-4 Submit
+refs.formElem.addEventListener(`submit`, (e) => {
+  e.preventDefault();
+
+  const userName = refs.inputElem.value.trim();
+  const isChecked = refs.checkElem.checked;
+
+  if (userName !== "" && isChecked) {
+    const dataUser = {
+      userName: userName,
+    };
+    console.log(dataUser);
+  } else {
+    return alert(`Error`);
+  }
+  refs.inputElem.value = "";
+  refs.spanElem.textContent = defaultName;
+  refs.checkElem.checked = false;
+  refs.inputElem.classList.remove(`success`, `error`);
+  refs.inputElem.style.outline = "none";
+});
