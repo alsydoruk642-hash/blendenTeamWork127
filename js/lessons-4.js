@@ -108,6 +108,4 @@ for (let i = 0; i < 100; i++) {
         numberBlock.classList.add('odd');
     }
     numberContainer.appendChild(numberBlock); 
-}  
-
-
+} 
