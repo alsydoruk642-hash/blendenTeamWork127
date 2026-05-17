@@ -115,29 +115,6 @@ for (let i = 0; i < 100; i++) {
 
 // Використовуй шаблон форми з файлу html.
 
-// 1 - При події `input`, якщо користувач ввів в поле більше
-// 6 символів то додати клас `success`. Якщо ж символів менше аніж 6,
-// то клас `error`
-
-// 2 - При події `focus` зроби перевірку на пустоту поля інпута,
-// якщо ж поле пусте, то зроби `outline` => `'3px solid red'`,
-// якщо при фокусі поле непусте, то `outline` => `'3px solid green'`
-
-// 3 - При події `blur` зроби перевірку на пустоту поля інпута,
-// якщо ж поле пусте, то зроби `outline` => `'3px solid red'`,
-// якщо при фокусі поле непусте, то `outline` => `'3px solid lime'`
-
-// 4 - При події `submit`. Відміни поведінку браузера по змовчуванню.
-// Дістань данні з інпуту і чек боксу, зроби перевірку,
-// що інпут не порожній, також, що нажатий чек бокс у положення true,
-// якщо користувач все виконав вірно, збери данні (userName)
-// у обьект і виведи у консоль. У разі, якщо користувач не виконав
-// одну із умов, виведи повідомлення. Також при події інпут реалізуй додавання
-// ім`я користувача у span, замість слова "Anonymous".
-// Якщо користувач ввів ім`я, а потім видалив, зроби так,
-// щоб на місце повернулось дефолтне знаяення "Anonymous".
-// При відправці форми, очисти інпут, верни чек бокс у положення
-// false, верни дефолтне значення "Anonymous" у span.
 const refs = {
   formElem: document.querySelector(`.js-contact-form`),
   inputElem: document.querySelector(`input`),
@@ -145,6 +122,9 @@ const refs = {
   checkElem: document.querySelector(`.js-policy-checkbox`),
 };
 const defaultName = "Anonymous";
+// 1 - При події `input`, якщо користувач ввів в поле більше
+// 6 символів то додати клас `success`. Якщо ж символів менше аніж 6,
+// то клас `error`
 //!! Task 3-1 Input
 refs.inputElem.addEventListener(`input`, () => {
   const value = refs.inputElem.value.trim();
@@ -159,6 +139,9 @@ refs.inputElem.addEventListener(`input`, () => {
   refs.spanElem.textContent = value ? value : defaultName;
 });
 
+// 2 - При події `focus` зроби перевірку на пустоту поля інпута,
+// якщо ж поле пусте, то зроби `outline` => `'3px solid red'`,
+// якщо при фокусі поле непусте, то `outline` => `'3px solid green'`
 //!! Task 3-2 Focus
 refs.inputElem.addEventListener(`focus`, () => {
   if (refs.inputElem.value.trim() === "" || refs.inputElem.value.length < 6) {
@@ -167,7 +150,9 @@ refs.inputElem.addEventListener(`focus`, () => {
     refs.inputElem.style.outline = "3px solid green";
   }
 });
-
+// 3 - При події `blur` зроби перевірку на пустоту поля інпута,
+// якщо ж поле пусте, то зроби `outline` => `'3px solid red'`,
+// якщо при фокусі поле непусте, то `outline` => `'3px solid lime'`
 //!! Task 3-3 Blur
 
 refs.inputElem.addEventListener(`blur`, () => {
@@ -209,4 +194,32 @@ refs.formElem.addEventListener(`submit`, (e) => {
   refs.checkElem.checked = false;
   refs.inputElem.classList.remove(`success`, `error`);
   refs.inputElem.style.outline = "none";
+});
+
+//!! Task 4
+// Використовуй шаблон розмітки з файлу html та напиши наступний функціонал:
+// При кліку на кнопку "Зменшити" квадрат стає меньшим на 20 пікселів,
+// При кліку на кнопку "Збільшити" - квадрат стає більшим на 20 пікселів.
+// const pElements = document.querySelectorAll(".task-title");
+// const pTaskFourElem = elements[elements.length - 1];
+
+const boxElem = document.querySelector(`.box`);
+const decreaseBtn = document.querySelector(`#decrease`);
+const increaseBtn = document.querySelector(`#increase`);
+
+let size = 100;
+
+function updateSize() {
+  boxElem.style.width = `${size}px`;
+  boxElem.style.height = `${size}px`;
+}
+
+decreaseBtn.addEventListener("click", () => {
+  size = Math.max(50, size - 20);
+  updateSize();
+});
+
+increaseBtn.addEventListener("click", () => {
+  size += 20;
+  updateSize();
 });
